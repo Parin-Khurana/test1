@@ -1,129 +1,98 @@
-"use client"
+import React from 'react';
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+const HeartShapedGallery = () => {
+  // Sample images - replace with your actual images
+  const images = [
+    { id: 1, src: "images/11.png", alt: "Nature" },
+    { id: 2, src: "images/11.png", alt: "City" },
+    { id: 3, src: "images/11.png", alt: "Technology" },
+    { id: 4, src: "images/11.png", alt: "Mountains" },
+    { id: 5, src: "images/11.png", alt: "Beach" },
+    { id: 6, src: "images/11.png", alt: "Forest" },
+    { id: 7, src: "images/11.png", alt: "Sports" },
+    { id: 8, src: "images/11.png", alt: "Food" },
+    { id: 9, src: "images/11.png", alt: "Travel" },
+    { id: 10, src: "images/11.png", alt: "Ocean" },
+    { id: 11, src: "images/11.png", alt: "Concert" },
+    { id: 12, src: "images/11.png", alt: "Art" },
+    { id: 13, src: "images/11.png", alt: "Wildlife" },
+    { id: 14, src: "images/11.png", alt: "Portrait" },
+    { id: 15, src: "images/11.png", alt: "Architecture" },
+    { id: 16, src: "images/11.png", alt: "Landscape" },
+    { id: 17, src: "images/11.png", alt: "Abstract" },
+    { id: 18, src: "images/11.png", alt: "Macro" },
+  ];
 
-export default function GalleryPage() {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  // Define the heart shape using CSS grid layout
+  const gridPositions = [
+    { gridColumn: "2 / 4", gridRow: "1 / 3" },
+    { gridColumn: "4 / 6", gridRow: "1 / 3" },
+    { gridColumn: "1 / 3", gridRow: "3 / 5" },
+    { gridColumn: "3 / 5", gridRow: "3 / 5" },
+    { gridColumn: "5 / 7", gridRow: "3 / 5" },
+    { gridColumn: "1 / 3", gridRow: "5 / 7" },
+    { gridColumn: "3 / 5", gridRow: "5 / 7" },
+    { gridColumn: "5 / 7", gridRow: "5 / 7" },
+    { gridColumn: "2 / 4", gridRow: "7 / 9" },
+    { gridColumn: "4 / 6", gridRow: "7 / 9" },
+    { gridColumn: "3 / 5", gridRow: "9 / 11" },
+  ];
 
-  // Create an array for the gallery images - using the same image for all positions
-  const images = Array.from({ length: 19 }, (_, i) => ({
-    id: i + 1,
-    src: `/placeholder.svg?height=300&width=500`,
-    alt: `MUN Conference Hall`,
-  }))
+  // For smaller heart layout
+  const smallerHeartPositions = [
+    { gridColumn: "2 / 3", gridRow: "1 / 2" },
+    { gridColumn: "3 / 4", gridRow: "1 / 2" },
+    { gridColumn: "1 / 2", gridRow: "2 / 3" },
+    { gridColumn: "2 / 3", gridRow: "2 / 3" },
+    { gridColumn: "3 / 4", gridRow: "2 / 3" },
+    { gridColumn: "4 / 5", gridRow: "2 / 3" },
+    { gridColumn: "2 / 3", gridRow: "3 / 4" },
+    { gridColumn: "3 / 4", gridRow: "3 / 4" }
+  ];
 
-  // Define the heart shape layout positions
-  const heartPositions = [
-    // Row 1 (2 images)
-    { gridColumn: "3 / span 2", gridRow: "1 / span 1" },
-    { gridColumn: "5 / span 2", gridRow: "1 / span 1" },
-
-    // Row 2 (3 images)
-    { gridColumn: "2 / span 2", gridRow: "2 / span 1" },
-    { gridColumn: "4 / span 2", gridRow: "2 / span 1" },
-    { gridColumn: "6 / span 2", gridRow: "2 / span 1" },
-
-    // Row 3 (4 images)
-    { gridColumn: "1 / span 2", gridRow: "3 / span 1" },
-    { gridColumn: "3 / span 2", gridRow: "3 / span 1" },
-    { gridColumn: "5 / span 2", gridRow: "3 / span 1" },
-    { gridColumn: "7 / span 2", gridRow: "3 / span 1" },
-
-    // Row 4 (3 images)
-    { gridColumn: "2 / span 2", gridRow: "4 / span 1" },
-    { gridColumn: "4 / span 2", gridRow: "4 / span 1" },
-    { gridColumn: "6 / span 2", gridRow: "4 / span 1" },
-
-    // Row 5 (2 images)
-    { gridColumn: "3 / span 2", gridRow: "5 / span 1" },
-    { gridColumn: "5 / span 2", gridRow: "5 / span 1" },
-
-    // Row 6 (1 image)
-    { gridColumn: "4 / span 2", gridRow: "6 / span 1" },
-
-    // Row 7 (1 image)
-    { gridColumn: "5 / span 1", gridRow: "7 / span 1" },
-  ]
+  // Create positions for all images - using the heart shape for the main ones
+  // and adding others around in a pleasing arrangement
+  const allPositions = [
+    ...gridPositions,
+    { gridColumn: "7 / 9", gridRow: "4 / 6" },
+    { gridColumn: "7 / 9", gridRow: "2 / 4" },
+    { gridColumn: "1 / 3", gridRow: "8 / 10" },
+    { gridColumn: "5 / 7", gridRow: "8 / 10" },
+    { gridColumn: "6 / 8", gridRow: "6 / 8" },
+    { gridColumn: "7 / 9", gridRow: "7 / 9" },
+    { gridColumn: "4 / 6", gridRow: "10 / 12" },
+    { gridColumn: "2 / 4", gridRow: "10 / 12" }
+  ];
 
   return (
-    <>
-      <div className="container py-16 md:py-24 lg:py-32">
-        <div className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-4 text-center"
-          >
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              Gallery
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Moments captured from our MUN journey</p>
-          </motion.div>
+    <div className="container py-12 md:py-16 lg:py-24">
+      <div className="space-y-8">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Heart Gallery</h1>
+          <p className="text-gray-500">Photos arranged in a heart shape</p>
+        </div>
 
-          <div className="relative mx-auto max-w-5xl">
-            <div className="bg-black p-8 rounded-xl">
-              <div className="grid grid-cols-8 grid-rows-7 gap-2">
-                {heartPositions.map((position, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.03 }}
-                    whileHover={{ scale: 1.05, zIndex: 10 }}
-                    className="cursor-pointer overflow-hidden"
-                    onClick={() => setSelectedImage(index)}
-                    style={position}
-                  >
-                    <img
-                      src={images[index].src || "/placeholder.svg"}
-                      alt={images[index].alt}
-                      className="h-full w-full object-cover transition-all duration-500 hover:scale-110"
-                    />
-                  </motion.div>
-                ))}
-              </div>
+        <div className="grid grid-cols-8 grid-rows-11 gap-2 mx-auto max-w-5xl">
+          {images.slice(0, allPositions.length).map((image, index) => (
+            <div 
+              key={image.id} 
+              className="overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+              style={{
+                gridColumn: allPositions[index].gridColumn,
+                gridRow: allPositions[index].gridRow,
+              }}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="h-full w-full object-cover rounded-md"
+              />
             </div>
-          </div>
+          ))}
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedImage !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative max-w-4xl max-h-[90vh] overflow-hidden rounded-xl bg-background p-2"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="absolute top-4 right-4 bg-background/80 rounded-full p-2 z-10 hover:bg-background"
-                onClick={() => setSelectedImage(null)}
-              >
-                <X className="h-6 w-6" />
-              </button>
-
-              <img
-                src={selectedImage !== null ? images[selectedImage].src : ""}
-                alt={selectedImage !== null ? images[selectedImage].alt : ""}
-                className="max-h-[80vh] w-auto object-contain"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  )
-}
-
+export default HeartShapedGallery;
