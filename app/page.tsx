@@ -2,18 +2,33 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Calendar, MapPin, Clock } from "lucide-react"
 import dynamic from "next/dynamic"
 import TestimonialSlider from "@/components/testimonial-slider"
 import { motion } from "framer-motion"
+import { SpeakersSection } from "@/components/speakers-section"
+import { StatisticsSection } from "@/components/statistics-section"
+import { BenefitsGrid } from "@/components/benefits-grid"
+import { CountdownTimer } from "@/components/countdown-timer"
 
 // Import the 3D logo with dynamic import to avoid SSR issues
-const Namah3DLogo = dynamic(() => import("@/components/namah-3d-logo"), { ssr: false })
+const Namah3DLogo = dynamic(() => import("@/components/namah-3d-logo"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-primary/10 rounded-xl">
+      <h2 className="text-4xl font-bold text-primary animate-pulse">NAMAH MUN</h2>
+    </div>
+  ),
+})
 
 export default function HomePage() {
+  // Next conference date
+  const conferenceDate = new Date("2024-10-15T09:00:00")
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
+        {/* Hero Section */}
         <section className="w-full py-16 md:py-24 lg:py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10"></div>
           <div className="container px-4 md:px-6 relative">
@@ -25,18 +40,28 @@ export default function HomePage() {
                 className="space-y-4"
               >
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-                  Welcome to NAMAH MUN
+                  NAMAH Model United Nations
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Empowering future diplomats through Model United Nations conferences and training.
+                  Join the premier diplomatic simulation conference empowering future global leaders
                 </p>
+              </motion.div>
+
+              {/* Countdown Timer */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="w-full max-w-3xl"
+              >
+                <CountdownTimer targetDate={conferenceDate} />
               </motion.div>
 
               {/* 3D Rotating Logo */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
                 className="w-full"
               >
                 <Namah3DLogo />
@@ -50,12 +75,12 @@ export default function HomePage() {
               >
                 <Link href="/join-us">
                   <Button className="px-8 rounded-full shadow-lg hover:shadow-xl transition-all">
-                    Join NAMAH <ArrowRight className="ml-2 h-4 w-4" />
+                    Register Now <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/events">
                   <Button variant="outline" className="px-8 rounded-full border-2 hover:bg-primary/10 transition-all">
-                    Upcoming Conferences
+                    View Conferences
                   </Button>
                 </Link>
               </motion.div>
@@ -63,41 +88,79 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="w-full py-16 md:py-24 lg:py-32 bg-muted dark:bg-muted/50">
+        {/* Statistics Section */}
+        <StatisticsSection />
+
+        {/* Next Conference Section */}
+        <section className="w-full py-16 md:py-24 lg:py-32 bg-muted/30 dark:bg-muted/10">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-10 lg:grid-cols-3 items-start">
-              {[
-                {
-                  title: "Our Mission",
-                  description:
-                    "To foster diplomatic skills, global awareness, and leadership through Model United Nations.",
-                },
-                {
-                  title: "Our Vision",
-                  description:
-                    "Creating a community of informed global citizens ready to tackle the world's most pressing challenges.",
-                },
-                {
-                  title: "Our Values",
-                  description: "Diplomacy, integrity, inclusivity, and dedication to international cooperation.",
-                },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="space-y-4 p-6 rounded-xl bg-background shadow-md hover:shadow-lg transition-all"
-                >
-                  <h3 className="text-2xl font-bold text-primary">{item.title}</h3>
-                  <p className="text-muted-foreground">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="space-y-4 text-center mb-12"
+            >
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Next Conference</h2>
+              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+                Join us at our upcoming flagship Model United Nations conference
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="max-w-4xl mx-auto bg-background rounded-xl shadow-lg overflow-hidden"
+            >
+              <div className="md:flex">
+                <div className="md:shrink-0 bg-primary/20 md:w-[240px] flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold text-primary">NAMAH Regional MUN</h3>
+                    <div className="mt-4 text-5xl font-bold">
+                      15-17
+                      <div className="text-lg font-medium text-muted-foreground">October 2024</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Calendar className="h-5 w-5 text-primary" />
+                      <span>October 15-17, 2024</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Clock className="h-5 w-5 text-primary" />
+                      <span>9:00 AM - 5:00 PM</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="h-5 w-5 text-primary" />
+                      <span>University Conference Center</span>
+                    </div>
+                    <p className="mt-2">
+                      A three-day conference focusing on regional issues with committees including UNSC, UNHRC, and WHO.
+                      Open to university and high school students.
+                    </p>
+                    <div className="pt-4">
+                      <Link href="/events#event-1">
+                        <Button>Register Now</Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
+        {/* Benefits Grid Section */}
+        <BenefitsGrid />
+
+        {/* Speakers Section */}
+        <SpeakersSection />
+
+        {/* Testimonials Section */}
         <section className="w-full py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <motion.div
@@ -119,71 +182,34 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted/50">
+        {/* CTA Section */}
+        <section className="w-full py-16 md:py-24 lg:py-32 bg-primary/10 dark:bg-primary/5">
           <div className="container px-4 md:px-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-8 text-center"
             >
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Upcoming Conferences</h2>
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Ready to Join NAMAH MUN?</h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-                  Join us at our upcoming MUN conferences and develop your diplomatic skills.
+                  Register today to secure your spot at our upcoming conferences
                 </p>
               </div>
-              <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {[
-                  {
-                    title: "NAMAH Regional MUN",
-                    date: "October 15-17, 2024",
-                    location: "University Conference Center",
-                    committees: "UNSC, UNHRC, WHO",
-                  },
-                  {
-                    title: "NAMAH Youth MUN",
-                    date: "November 5-6, 2024",
-                    location: "International School Auditorium",
-                    committees: "UNGA, ECOSOC, UNESCO",
-                  },
-                  {
-                    title: "NAMAH Global Summit",
-                    date: "January 20-23, 2025",
-                    location: "Grand Convention Center",
-                    committees: "Security Council, G20, Climate Action",
-                  },
-                ].map((event, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className="flex flex-col items-center space-y-4 border rounded-xl p-6 bg-background shadow-sm hover:shadow-md transition-all"
-                  >
-                    <div className="h-40 w-full bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center">
-                      <span className="text-2xl font-bold text-primary">NAMAH MUN</span>
-                    </div>
-                    <h3 className="text-xl font-bold">{event.title}</h3>
-                    <p className="text-sm text-muted-foreground">Date: {event.date}</p>
-                    <p className="text-sm text-muted-foreground">Location: {event.location}</p>
-                    <p className="text-sm text-muted-foreground">Committees: {event.committees}</p>
-                    <Link href={`/events#event-${i + 1}`}>
-                      <Button variant="outline" size="sm" className="rounded-full">
-                        Learn More
-                      </Button>
-                    </Link>
-                  </motion.div>
-                ))}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/join-us">
+                  <Button size="lg" className="px-8 rounded-full">
+                    Apply for Membership
+                  </Button>
+                </Link>
+                <Link href="/events">
+                  <Button size="lg" variant="outline" className="px-8 rounded-full">
+                    View All Conferences
+                  </Button>
+                </Link>
               </div>
-              <Link href="/events">
-                <Button variant="outline" className="rounded-full">
-                  View All Conferences
-                </Button>
-              </Link>
             </motion.div>
           </div>
         </section>
